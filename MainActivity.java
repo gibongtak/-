@@ -8,6 +8,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,68 +16,91 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     TextView text1, text2;
-    CheckBox checkBox;
+    Switch swi;
     RadioGroup rGroup;
-    RadioButton rbntCat, rbntDog, rbntRabbit;
-    Button bnt1;
-    ImageView imgPet;
+    RadioButton rbntQ, rbntR, rbntS;
+    Button bntClose, bntReset;
+    ImageView img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setTitle("애완동물 사진 보기");
+        setTitle("안드로이드 버전 선택!");
 
         text1 = (TextView) findViewById(R.id.Text1);
-        checkBox = (CheckBox) findViewById(R.id.ChkAgree);
+        swi = (Switch) findViewById(R.id.Swi);
 
         text2 = (TextView) findViewById(R.id.text2);
         rGroup = (RadioGroup) findViewById(R.id.Rgroup);
-        rbntCat = (RadioButton) findViewById(R.id.BtnCat);
-        rbntDog = (RadioButton) findViewById(R.id.BtnDog);
-        rbntRabbit = (RadioButton) findViewById(R.id.BtnRabbit);
+        rbntQ = (RadioButton) findViewById(R.id.BtnQ);
+        rbntR = (RadioButton) findViewById(R.id.BtnR);
+        rbntS = (RadioButton) findViewById(R.id.BtnS);
 
-        bnt1 = (Button) findViewById(R.id.BtnSelect);
-        imgPet = (ImageView) findViewById(R.id.ImgPet);
-
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        bntClose = (Button) findViewById(R.id.BtnClose);
+        bntReset = (Button) findViewById(R.id.BtnReset);
+        img = (ImageView) findViewById(R.id.Img);
+        //imgPet.setVisibility(View.INVISIBLE);
+        swi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(checkBox.isChecked() == true)
+                if(b == false)
                 {
-                    text2.setVisibility(View.VISIBLE);
-                    rGroup.setVisibility(View.VISIBLE);
-                    bnt1.setVisibility(View.VISIBLE);
-                    imgPet.setVisibility(View.VISIBLE);
-                }
-                else
-                {
-                    text2.setVisibility(View.INVISIBLE);
                     rGroup.setVisibility(View.INVISIBLE);
-                    bnt1.setVisibility(View.INVISIBLE);
-                    imgPet.setVisibility(View.INVISIBLE);
+                    rbntQ.setVisibility(View.INVISIBLE);
+                    rbntR.setVisibility(View.INVISIBLE);
+                    rbntS.setVisibility(View.INVISIBLE);
+                    img.setVisibility(View.INVISIBLE);
+                    bntClose.setVisibility(View.INVISIBLE);
+                    bntReset.setVisibility(View.INVISIBLE);
+                } else if (b == true) {
+                    rGroup.setVisibility(View.VISIBLE);
+                    rbntQ.setVisibility(View.VISIBLE);
+                    rbntR.setVisibility(View.VISIBLE);
+                    rbntS.setVisibility(View.VISIBLE);
+                    img.setVisibility(View.VISIBLE);
+                    bntClose.setVisibility(View.VISIBLE);
+                    bntReset.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+        rbntQ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                img.setImageResource(R.drawable.qq);
+            }
+        });
+        rbntR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                img.setImageResource(R.drawable.rr);
+            }
+        });
+        rbntS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                img.setImageResource(R.drawable.ss);
             }
         });
 
-        bnt1.setOnClickListener(new View.OnClickListener() {
+        bntClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch(rGroup.getCheckedRadioButtonId()){
-                    case R.id.BtnCat:
-                        imgPet.setImageResource(R.drawable.cat);
-                        break;
-                    case R.id.BtnDog:
-                        imgPet.setImageResource(R.drawable.dog);
-                        break;
-                    case R.id.BtnRabbit:
-                        imgPet.setImageResource(R.drawable.rabbit);
-                        break;
-                    default:
-                        Toast.makeText(getApplicationContext(),"동물 먼저 선택하세요", Toast.LENGTH_SHORT).show();
-                }
+                moveTaskToBack(true);
+                finishAndRemoveTask();
+                System.exit(0);
             }
         });
+        bntReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rbntQ.setChecked(false);
+                rbntR.setChecked(false);
+                rbntS.setChecked(false);
+                swi.setChecked(false);
+            }
+        });
+
     }
 }
